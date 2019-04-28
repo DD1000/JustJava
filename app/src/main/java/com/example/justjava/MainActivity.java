@@ -4,6 +4,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebView;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,10 +22,31 @@ public class MainActivity extends AppCompatActivity {
 
     public void submitOrder(View view)
     {
+        EditText nameField = findViewById(R.id.name_field);
+        String name = nameField.getText().toString();
         double price = priceMultiplier*quantity;
+        String priceMessage = "";
         TextView priceView = findViewById(R.id.price_view);
 
-        priceView.setText("$" + String.format("%.2f", price));
+        priceMessage += "Name: " + name + "\nQuantity: " + quantity + "\n";
+
+        CheckBox chocolate = findViewById(R.id.chocolate_checkbox);
+        if(chocolate.isChecked())
+        {
+            double withChocolate = quantity * 1.25f;
+            price += withChocolate;
+            priceMessage += "Added chocolate topping\n";
+        }
+
+        CheckBox whip = findViewById(R.id.whip_checkbox);
+        if(whip.isChecked())
+        {
+            double withWhip = quantity * .75;
+            price += withWhip;
+            priceMessage += "Added whipped topping\n";
+        }
+
+        priceView.setText(priceMessage + "Total: $" + String.format("%.2f", price));
     }
 
     public void alterQuantity(View view)
